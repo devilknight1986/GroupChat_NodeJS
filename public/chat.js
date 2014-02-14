@@ -11,14 +11,19 @@ window.onload = function() {
     socket.on('message', function (data) {
         if(data.message) {
             messages.push(data.message);
-			if (data.username) {
+/*			if (data.username) {
 				usernames.push(data.username);
 			}
             var html = '';
             for(var i=0; i<messages.length; i++) {
 	                html +=  usernames[i] + ': ' + messages[i] + '<br />'; 
             }
-            content.innerHTML = html;
+*/
+			if (data.username) {
+				content.innerHTML += data.username + ': ' + data.message + '<br />'; 
+			} else {
+				content.innerHTML += 'System' + ': ' + data.message + '<br />'; 
+			}
         } else {
             console.log("There is a problem:", data);
         }
