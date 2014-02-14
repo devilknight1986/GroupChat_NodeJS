@@ -1,6 +1,7 @@
 window.onload = function() {
  
     var messages = [];
+	var usernames = ['System'];
     var socket = io.connect('http://10.29.2.15:3700');
     var field = document.getElementById("field");
     var sendButton = document.getElementById("send");
@@ -10,13 +11,12 @@ window.onload = function() {
     socket.on('message', function (data) {
         if(data.message) {
             messages.push(data.message);
+			if (data.username) {
+				usernames.push(data.username);
+			}
             var html = '';
             for(var i=0; i<messages.length; i++) {
-				if (data.username) {
-	                html += data.username + ': ' + messages[i] + '<br />';
-				} else {
-	                html +=  messages[i] + '<br />'; 
-				}
+	                html +=  usernames[i] + ': ' + messages[i] + '<br />'; 
             }
             content.innerHTML = html;
         } else {
