@@ -6,27 +6,30 @@ window.onload = function() {
     var field = document.getElementById("field");
     var sendButton = document.getElementById("send");
     var content = document.getElementById("content");
+    var contentSpecific = document.getElementById("contentSpecific");
 	var name = document.getElementById("name");
- 
-    socket.on('message', function (data) {
+	var personname = document.getElementById("personname");
+	function display(data) {
         if(data.message) {
-            messages.push(data.message);
-/*			if (data.username) {
-				usernames.push(data.username);
-			}
-            var html = '';
-            for(var i=0; i<messages.length; i++) {
-	                html +=  usernames[i] + ': ' + messages[i] + '<br />'; 
-            }
-*/
 			if (data.username) {
-				content.innerHTML += data.username + ': ' + data.message + '<br />'; 
+				if (data.personname == "") {
+					content.innerHTML += data.username + ': ' + data.message + '<br />'; 
+				} else {
+					if (data.username == name.value || data.personname == name.value) {
+						contentSpecific.innerHTML += data.username + ' ContactWith ' + data.personname + ' :' + data.message + '<br />';
+					}
+				}
 			} else {
 				content.innerHTML += 'System' + ': ' + data.message + '<br />'; 
+				contentSpecific.innerHTML += 'System' + ': ' + 'Private Room' + '<br />'; 
 			}
         } else {
             console.log("There is a problem:", data);
         }
+	}
+ 
+    socket.on('message', function (data) {
+			display(data);
     });
  
     sendButton.onclick =sendMessage= function() {
@@ -36,7 +39,7 @@ window.onload = function() {
 		}
 
         var text = field.value;
-        socket.emit('send', { message: text, username: name.value });
+        socket.emit('send', { message: text, username: name.value, personname: personname.value });
 		field.value="";
     };
  
