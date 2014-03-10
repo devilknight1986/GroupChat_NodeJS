@@ -2,7 +2,7 @@ window.onload = function() {
  
     var messages = [];
 	var usernames = ['System'];
-    var socket = io.connect('http://10.29.2.15:3700');
+    var socket = io.connect('http://127.0.0.1:3700');
     var field = document.getElementById("field");
     var sendButton = document.getElementById("send");
     var content = document.getElementById("content");

@@ -1,0 +1,60 @@
+#ourAirPort {
+    background: #c3c3c3;
+    width: 378; 
+    height: 378;
+    margin: 0 0 20px 0;
+    border: solid 1px #999;
+    float:left;
+}
+
+#enemyAirPort {
+    background: #c3c3c3;
+    width: 378; 
+    height: 378;
+    margin: 0 0 20px 50px;
+    border: solid 1px #999;
+    float:left;
+}
+
+
+.airPortGrid {
+    width: 40px;
+    height: 40px;
+    border: 1px solid red;
+    float: left;
+}
+
+.airPortGridWithPlane {
+    background: green;
+}
+
+.airPortGridWithPlaneOpac {
+    background: green;
+    opacity: 0.5;
+}
+
+.airPortGridWithPlaneAttacked {
+    background: yellow;
+    font-size: 40px;
+    text-align: center;
+}
+
+.enemyAirPortGridWithPlane {
+    background: orange;
+}
+
+.enemyAirPortGridWithPlaneOpac {
+    background: orange;
+    opacity: 0.5;
+}
+
+#airPlaneModel {
+    background: #c3c3c3;
+    width: 210px; 
+    height: 210px;
+    margin: 0 0 20px 50px;
+    border: solid 1px #999;
+    float: left;
+}
+
+

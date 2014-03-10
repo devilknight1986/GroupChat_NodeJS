@@ -1,12 +1,14 @@
 html
     head
         title= "Real time web chat"
-        script(src='/jquery-2.1.0.js')
-        script(src='/chat.js')
+        script(src='/js/jquery-2.1.0.js')
+        script(src='/js/chat.js')
         script(src='/socket.io/socket.io.js')
+        link(rel='stylesheet', href='/css/style.css')
     body
-        #content(style='width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll; float:left')
-        #contentSpecific(style='width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll; float:left')
+        #ourAirPort
+        #airPlaneModel
+        #enemyAirPort
         .controls(style='clear:both;')
             | My Own Name as the Room chat ID 
             input#name(style='width:350px;')
@@ -16,3 +18,7 @@ html
             br
             input#field(style='width:350px;')
             input#send(type='button', value='send')
+            input#retry(type='button', value='retry')
+            input#startGame(type='button', value='start')
+        script(src='/js/ui.js')
+        script(src='/js/game.js')
