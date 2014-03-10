@@ -10,11 +10,11 @@ app.get("/", function(req, res){
     res.render("page");
 });
  
-var io = require('socket.io').listen(app.listen(port));
+var io = require('socket.io').listen(app.listen(process.env.PORT || 3700));
 io.sockets.on('connection', function (socket) {
     socket.emit('message', { message: 'welcome to the chat' });
     socket.on('send', function (data) {
         io.sockets.emit('message', data);
     });
 });
-console.log("Listening on port " + port);
+console.log("Listening on port " + process.env.PORT);
