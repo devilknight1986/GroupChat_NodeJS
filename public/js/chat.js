@@ -1,6 +1,6 @@
 window.onload = function() {
  
-    var messages = [];
+    /*var messages = [];
 	var usernames = ['System'];
     var socket = io.connect('http://127.0.0.1:3700');
     var field = document.getElementById("field");
@@ -41,7 +41,7 @@ window.onload = function() {
         var text = field.value;
         socket.emit('send', { message: text, username: name.value, personname: personname.value });
 		field.value="";
-    };
+    };*/
  
 }
 
@@ -49,7 +49,7 @@ window.onload = function() {
 $(document).ready(function() {
 		$('#field').keyup(function(e) {
 			if (e.keyCode == 13) {
-				sendMessage();
+	//			sendMessage();
 			}
 		});
 });

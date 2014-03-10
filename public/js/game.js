@@ -14,8 +14,12 @@
     });
 
     $('body').on('keypress', function(e) {
+        // add firefox complaining for keypress
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+
         // 32 means space
-        if (e.keyCode == 32) {
+        if (keycode === 32) {
+            console.log(e.keyCode);
             gameUI.initPlaneModel('#airPlaneModel');
 
             if (MOUSEENTEREVENT === '') return;
