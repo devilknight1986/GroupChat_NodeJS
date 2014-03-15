@@ -37,23 +37,22 @@
     });
 
     // enemyAirPort listeners(click and dblclick)
-    var enemyAirPortClickTimer = null;
     $('#enemyAirPort').on('mouseenter', 'span', gameAction.mouseEnterEnemyAirPortCallBack);
     $('#enemyAirPort').on('mouseleave', 'span', gameAction.mouseLeaveEnemyAirPortCallBack);
-    $('#enemyAirPort').on('click', 'span', gameAction.clickEnemyAirPortCallBack);
+    // $('#enemyAirPort').on('click', 'span', gameAction.clickEnemyAirPortCallBack);
 
-    /*$('#enemyAirPort').on('click', 'span', function(e) {
+    var enemyAirPortClickTimer = null;
+    $('#enemyAirPort').on('click', 'span', function(e) {
         enemyAirPortClickTimer && clearTimeout(enemyAirPortClickTimer);
         enemyAirPortClickTimer = setTimeout(function() {
-            console.log('enemyAirPort Toggle' + ' i: ' + $(e.target).data('i') + ' j: ' 
-            + $(e.target).data('j'));
+            gameAction.clickEnemyAirPortCallBack(e);
         }, 300);
     })
     .on('dblclick', 'span', function(e) {
         enemyAirPortClickTimer && clearTimeout(enemyAirPortClickTimer);
-        targetElem = e.target;
+        gameAction.dblclickEnemyAirPortCallBack(e);
         console.log('doubleclick');
-    });*/
+    });
 
     // ourAirPort listeners
     $('#ourAirPort').on('mouseenter', 'span', gameAction.mouseEnterOurAirPortCallBack);
@@ -66,7 +65,31 @@
     });
 
     $('#startGame').on('click', function() {
+        PLAYERID = $('#selfId').val();
+        OPPONENTID = $('#opponentId').val();
+        if (PLAYERID == '' || OPPONENTID == '') {
+            alert('Sorry, cannot input null id'); 
+            return;
+        }
+
+        if (PLAYERID == OPPONENTID) {
+            alert('People cannot play game with themselves');
+            return;
+        }
+
+        socket.emit('send', {msgType: 'PLAYERID', playerID: PLAYERID, opponentID: OPPONENTID});
         $('#ourAirPort').unbind();
     });
 
+    $('#send').on('click', function() {
+        var vPos = $('#vPos').val();
+        var hPos = $('#vPos').val();
+        var valid = (1 <= vPos && vPos <= 9 && 1 <= hPos && hPos <= 9);
+
+        if (valid == false) {
+            alert('Sorry, the shooting position is not valid');
+            return;
+        }
+    });
+    
 })();

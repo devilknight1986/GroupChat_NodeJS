@@ -2,7 +2,6 @@ html
     head
         title= "Real time web chat"
         script(src='/js/jquery-2.1.0.js')
-        script(src='/js/chat.js')
         script(src='/socket.io/socket.io.js')
         link(rel='stylesheet', href='/css/style.css')
     body
@@ -10,15 +9,26 @@ html
         #airPlaneModel
         #enemyAirPort
         .controls(style='clear:both;')
-            | My Own Name as the Room chat ID 
-            input#name(style='width:350px;')
+            | My Id as A player:  
+            input#selfId(style='width:350px;')
             br
-            | Person Name Who will be Talk with 
-            input#personname(style='width:350px;')
+            | Component Id as A player:  
+            input#opponentId(style='width:350px;')
             br
-            input#field(style='width:350px;')
-            input#send(type='button', value='send')
+            | Shoot First 
+            input(type='radio' name='playSeq', value=1, checked="checked")
+            | Shoot Second 
+            input(type='radio' name='playSeq', value=2)
+            br
+            | vertical position (min 1, max 9) 
+            input#vPos(style='width:20px')
+            | horizontal position (min 1, max 9) 
+            input#hPos(style='width:20px')
+            br
+            input#send(type='button', value='shoot', disabled='disabled')
             input#retry(type='button', value='retry')
             input#startGame(type='button', value='start')
+
         script(src='/js/ui.js')
         script(src='/js/game.js')
+        script(src='/js/chat.js')

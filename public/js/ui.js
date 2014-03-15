@@ -219,6 +219,15 @@
             console.log(gameAction.enemyAirPortPlanePos.planePosHeads.length);
         },
 
+        dblclickEnemyAirPortCallBack: function(e) {
+            $target = $(e.target);
+            var i = $target.data('i');
+            var j = $target.data('j');
+
+            $('#vPos').val(i);
+            $('#hPos').val(j);
+        },
+
         isSameDirection: function(i, j, airPortPlanePos, indexOfPlanePos) {
             console.log('isSameDirection called');
             var planePosBodies = airPortPlanePos.planePosBodies;

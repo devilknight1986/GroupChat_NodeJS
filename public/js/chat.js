@@ -1,55 +1,30 @@
-window.onload = function() {
- 
-    /*var messages = [];
-	var usernames = ['System'];
-    var socket = io.connect('http://127.0.0.1:3700');
-    var field = document.getElementById("field");
-    var sendButton = document.getElementById("send");
-    var content = document.getElementById("content");
-    var contentSpecific = document.getElementById("contentSpecific");
-	var name = document.getElementById("name");
-	var personname = document.getElementById("personname");
-	function display(data) {
-        if(data.message) {
-			if (data.username) {
-				if (data.personname == "") {
-					content.innerHTML += data.username + ': ' + data.message + '<br />'; 
-				} else {
-					if (data.username == name.value || data.personname == name.value) {
-						contentSpecific.innerHTML += data.username + ' ContactWith ' + data.personname + ' :' + data.message + '<br />';
-					}
-				}
-			} else {
-				content.innerHTML += 'System' + ': ' + data.message + '<br />'; 
-				contentSpecific.innerHTML += 'System' + ': ' + 'Private Room' + '<br />'; 
-			}
-        } else {
-            console.log("There is a problem:", data);
-        }
-	}
- 
-    socket.on('message', function (data) {
-			display(data);
-    });
- 
-    sendButton.onclick =sendMessage= function() {
-		if (name.value == "") {
-			alert("Please type your name!");
-			return;
-		}
+socket = io.connect(window.location.origin);
+PLAYERID = null;
+OPPONENTID = null;
+socket.on('message', function(data) {
+    console.log(data);
 
-        var text = field.value;
-        socket.emit('send', { message: text, username: name.value, personname: personname.value });
-		field.value="";
-    };*/
- 
-}
+    if (data.msgType === 'PLAYERID_ACK') {
+        console.log('PLAYERID_ACK');
+        socket.emit('send', {msgType: 'PLAYERID_ACK', playerID: PLAYERID, opponentID: OPPONENTID});
 
+        $('#selfId').attr('disabled', 'disabled').css({'background': '#c3c3c3'});
+        $('#opponentId').attr('disabled', 'disabled').css({'background': '#c3c3c3'});
+        $('#startGame').attr('disabled', 'disabled').css({'background': '#c3c3c3'});
+        $('#send').removeAttr('disabled');
+        $('input[type=radio]').attr('disabled', 'disabled').css({'background': '#c3c3c3'}); 
+        return;
+    }
 
-$(document).ready(function() {
-		$('#field').keyup(function(e) {
-			if (e.keyCode == 13) {
-	//			sendMessage();
-			}
-		});
+    if (data.msgType === 'PLAYERID_NOT_ACK') {
+        alert(data.msgInfo);
+        return;
+    }
+
 });
+
+socket.on('disconnect', function(data) {
+    console.log('You have been kicked out by Game Server');
+});
+
+// socket.emit('send', {msgType: 'PLAYERID', playerID: PLAYERID, opponentID: OPPONENTID});
