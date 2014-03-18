@@ -72,6 +72,32 @@ function isOpponentIDPlayingWithAnotherPlayer(playerID, opponentID) {
 
 }
 
+function isOpponentIDExist(opponentID) {
+    var i = 0;
+
+    for (; i < clients.length; i++) {
+        if (clients[i].playerID == opponentID) {
+           break; 
+        }
+    }
+
+    if ( i == clients.length ) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function getShootSeqByID(playerID) {
+    for ( var i = 0; i < clients.length; i++ ) {
+        if (clients[i].playerID == playerID) {
+            return clients[i].shootSeq; 
+        }
+    }
+
+    return "dinglei"
+}
+
 var io = require('socket.io').listen(app.listen(process.env.PORT || 3700));
 io.sockets.on('connection', function (socket) {
 
@@ -90,6 +116,14 @@ io.sockets.on('connection', function (socket) {
             if (isOpponentIDPlayingWithAnotherPlayer(data.playerID, data.opponentID)) {
                 socket.emit('message', {msgType: 'PLAYERID_NOT_ACK', msgInfo: 'Opponent ' + data.playerID + ' not proper'});
                 return;
+            }
+
+            if (isOpponentIDExist(data.opponentID)) {
+                var opponentPlaySeq = getShootSeqByID(data.opponentID);
+                if (data.shootSeq == opponentPlaySeq) {
+                    socket.emit('message', {msgType: 'PLAYERID_NOT_ACK', msgInfo: 'You have the same playSeq with Your Opponent'});
+                    return;
+                }
             }
 
             data.socket = socket;

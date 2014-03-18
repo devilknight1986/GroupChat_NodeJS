@@ -1,5 +1,6 @@
 (function(){
     console.log("Plane Shooting Game Begin!");
+    ISMYTURN = 'false';
 
     // Draw AirPorts
     gameUI.initAirPort('#ourAirPort');
@@ -65,19 +66,29 @@
     });
 
     $('#startGame').on('click', function() {
+        if (gameAction.ourAirPortPlanePos.planePosHeads.length != 3) {
+            alert('Sorry, game cannot start until there are 3 plane in ourAirPort');
+            return;
+        }
+
         PLAYERID = $('#selfId').val();
         OPPONENTID = $('#opponentId').val();
         if (PLAYERID == '' || OPPONENTID == '') {
             alert('Sorry, cannot input null id'); 
             return;
         }
-
         if (PLAYERID == OPPONENTID) {
             alert('People cannot play game with themselves');
             return;
         }
 
-        socket.emit('send', {msgType: 'PLAYERID', playerID: PLAYERID, opponentID: OPPONENTID});
+        if ($('input:radio:checked').val() == 1) {
+            ISMYTURN = 'true';
+        } else {
+            ISMYTURN = 'false';
+        }
+        console.log(ISMYTURN);
+        socket.emit('send', {msgType: 'PLAYERID', playerID: PLAYERID, opponentID: OPPONENTID, shootSeq: ISMYTURN});
         $('#ourAirPort').unbind();
     });
 

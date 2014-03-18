@@ -1,6 +1,7 @@
 socket = io.connect(window.location.origin);
 PLAYERID = null;
 OPPONENTID = null;
+
 socket.on('message', function(data) {
     console.log(data);
 
@@ -11,7 +12,6 @@ socket.on('message', function(data) {
         $('#selfId').attr('disabled', 'disabled').css({'background': '#c3c3c3'});
         $('#opponentId').attr('disabled', 'disabled').css({'background': '#c3c3c3'});
         $('#startGame').attr('disabled', 'disabled').css({'background': '#c3c3c3'});
-        $('#send').removeAttr('disabled');
         $('input[type=radio]').attr('disabled', 'disabled').css({'background': '#c3c3c3'}); 
         return;
     }
