@@ -94,7 +94,7 @@
 
     $('#send').on('click', function() {
         var vPos = $('#vPos').val();
-        var hPos = $('#vPos').val();
+        var hPos = $('#hPos').val();
         var valid = (1 <= vPos && vPos <= 9 && 1 <= hPos && hPos <= 9);
 
         if (valid == false) {

@@ -180,6 +180,18 @@ io.sockets.on('connection', function (socket) {
             var opponentSockId = getSocketIDByClientID(client.opponentID);
             io.sockets.socket(opponentSockId).emit('message', data);
         }
+
+        if (data.msgType === 'SHOOT_ACK') {
+            var client = getClientBySocketID(socket.id);
+            var opponentSockId = getSocketIDByClientID(client.opponentID);
+            io.sockets.socket(opponentSockId).emit('message', data);
+        }
+
+        if (data.msgType === 'YOULOST') {
+            var client = getClientBySocketID(socket.id);
+            var opponentSockId = getSocketIDByClientID(client.opponentID);
+            io.sockets.socket(opponentSockId).emit('message', data);
+        }
     });
 });
 

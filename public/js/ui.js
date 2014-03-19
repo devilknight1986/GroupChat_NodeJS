@@ -109,6 +109,8 @@
             planePosHeads: []
         },
 
+        headsHited: [],
+
         mouseEnterOurAirPortCallBack: function(e) {
             MOUSEENTEREVENT = e;
             var $target = $(e.target);
@@ -315,8 +317,40 @@
                    $(selector).removeClass(posClass);
                }
            }
-        }
+        },
 
+        isOurPlaneHeadHit: function(i, j) {
+            var bRet = false;
+            var planePosHeads = gameAction.ourAirPortPlanePos.planePosHeads;
+            for (var m = 0; m < planePosHeads.length; m++) {
+                if (planePosHeads[m].i == i && planePosHeads[m].j == j) {
+                    bRet = true;
+                    return bRet;
+                }
+            }
+
+            return bRet;
+        },
+
+        isOurPlaneBodiesHit: function(i, j) {
+            var bRet = false;
+            var planePosBodies = gameAction.ourAirPortPlanePos.planePosBodies;
+            for (var m = 0; m < planePosBodies.length; m++) {
+                if (planePosBodies[m].i == i && planePosBodies[m].j == j) {
+                    bRet = true;
+                    return bRet;
+                }
+            }
+
+            return bRet;
+        },
+
+        placeSignOnAirPort: function(i, j, airPortSelector, sign) {
+            console.log('placeSignOnAirPort');
+            console.log(i + ' ' + j);
+            var selector = airPortSelector + ' ' + 'span[data-i=' + '\"' + i + '\"' + ']' +  '[data-j=' + '\"'+ j +  '\"' +']';
+            $(selector).html(sign); 
+        }
     };
 
 })();
