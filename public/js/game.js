@@ -83,9 +83,9 @@
         }
 
         if ($('input:radio:checked').val() == 1) {
-            ISMYTURN = 'true';
+            ISMYTURN = true;
         } else {
-            ISMYTURN = 'false';
+            ISMYTURN = false;
         }
         console.log(ISMYTURN);
         socket.emit('send', {msgType: 'PLAYERID', playerID: PLAYERID, opponentID: OPPONENTID, shootSeq: ISMYTURN});
@@ -101,6 +101,9 @@
             alert('Sorry, the shooting position is not valid');
             return;
         }
+
+        $(this).attr('disabled', 'disabled');
+        socket.emit('shoot', {msgType: 'SHOOT', i: vPos, j: hPos});
     });
     
 })();

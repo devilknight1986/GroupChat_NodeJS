@@ -21,6 +21,24 @@ socket.on('message', function(data) {
         return;
     }
 
+    if (data.msgType === 'SERVER_SAY_SHOOT') {
+        alert("Shoot please");
+        $('#send').removeAttr('disabled');
+        return;
+    }
+
+    if (data.msgType === 'OPPONENT_QUIT') {
+        alert("Server says your opponent has quit, please retry");
+        $('#retry').trigger('click');
+        return;
+    }
+
+    if (data.msgType === 'SHOOT') {
+        alert("Shooting info recevied, it is your turn to shoot");
+        $('#send').removeAttr('disabled');
+        return;
+    }
+
 });
 
 socket.on('disconnect', function(data) {

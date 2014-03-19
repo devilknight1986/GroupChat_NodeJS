@@ -11,6 +11,18 @@ app.get("/", function(req, res){
 });
 
 var clients = [];
+
+function getClientBySocketID(socketID) {
+    var i = 0;
+    for (; i< clients.length; i++) {
+        if (socketID === clients[i].socket.id) {
+            break;
+        }
+    }
+
+    return clients[i];
+}
+
 function getSocketIDByClientID(clientID) {
     var socketID = "Hello";
     for (var i = 0; i < clients.length; i++) {
@@ -43,7 +55,9 @@ function removeSpecifiedConnection(socketID) {
         }
     }
 
+    var client = clients[i];
     clients.splice(i, 1);
+    return client;
 }
 
 function isPlayerIDConflictedWithPlayersOnline(playerID) {
@@ -129,18 +143,43 @@ io.sockets.on('connection', function (socket) {
             data.socket = socket;
             clients.push(data);
             socket.emit('message', {msgType: 'PLAYERID_ACK'});
+
+            if (isOpponentIDExist(data.opponentID)) {
+                var opponentPlaySeq = getShootSeqByID(data.opponentID);
+                if (opponentPlaySeq) {
+                    var socketId = getSocketIDByClientID(data.opponentID);
+                    io.sockets.socket(socketId).emit('message', {msgType: 'SERVER_SAY_SHOOT'});
+                } else {
+                    socket.emit('message', {msgType: 'SERVER_SAY_SHOOT'});
+                }
+
+            }
         }
 
         if (data.msgType === 'PLAYERID_ACK') {
             io.sockets.socket(getSocketIDByClientID(data.playerID)).emit('message', 'socketIDReceived: ' + socket.id);
             return;
         }
+
     });
 
     socket.on('disconnect', function() {
-         removeSpecifiedConnection(socket.id); 
+         var client = removeSpecifiedConnection(socket.id); 
+         if (client == undefined) return;
+         if (isOpponentIDExist(client.opponentID)) {
+            console.log('Opponent exits');
+            io.sockets.socket(getSocketIDByClientID(client.opponentID)).emit('message', {msgType: 'OPPONENT_QUIT'}); 
+         }
          console.log('Conection disconnected');
          console.log('Clients Len: ' + clients.length);
+    });
+
+    socket.on('shoot', function(data) {
+        if (data.msgType === 'SHOOT') {
+            var client = getClientBySocketID(socket.id);
+            var opponentSockId = getSocketIDByClientID(client.opponentID);
+            io.sockets.socket(opponentSockId).emit('message', data);
+        }
     });
 });
 
